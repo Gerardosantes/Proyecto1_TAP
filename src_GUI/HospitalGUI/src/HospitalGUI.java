@@ -42,7 +42,38 @@ public class HospitalGUI extends JFrame {
         add(lblTitulo);
         
         //  2.1 - LOGIN Y VALIDACION
+        
+        
+       // ETIQUETA USUARIO
+        lblUsuario = new JLabel("Usuario:");
+        lblUsuario.setFont(new Font("Arial", Font.BOLD, 14));
+        lblUsuario.setBounds(120,70,100,30);
+        add(lblUsuario);
 
+        // CAMPO USUARIO
+        txtUsuario = new JTextField();
+        txtUsuario.setBounds(200,70,120,30);
+        add(txtUsuario);
+
+        // ETIQUETA CONTRASEÑA
+        lblContra = new JLabel("Contraseña:");
+        lblContra.setFont(new Font("Arial", Font.BOLD, 14));
+        lblContra.setBounds(120,120,100,30);
+        add(lblContra);
+
+        // CAMPO CONTRASEÑA
+        txtContra = new JPasswordField();
+        txtContra.setBounds(200,120,120,30);
+        add(txtContra);
+
+        // BOTON INGRESAR
+        btnIngresar = new JButton("Ingresar");
+        btnIngresar.setBounds(170,180,140,35);
+        btnIngresar.setBackground(botones);
+        btnIngresar.setForeground(textoBoton);
+        btnIngresar.setFocusPainted(false);
+        btnIngresar.setFont(new Font("Arial", Font.BOLD, 14));
+        add(btnIngresar);
 
 
 
