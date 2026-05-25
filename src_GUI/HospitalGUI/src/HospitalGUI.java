@@ -110,7 +110,28 @@ public class HospitalGUI extends JFrame {
 
 
         //  2.2 - EVENTO LOGIN
+       btnIngresar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
+                String usuario = txtUsuario.getText();
+                String contra = txtContra.getText();
+
+                // VALIDACION DE ACCESO
+                if(usuario.equals("admin") && contra.equals("1234")) {
+
+                    JOptionPane.showMessageDialog(null,
+                            "Bienvenido " + usuario);
+
+                    mostrarMenu();
+
+                } else {
+
+                    JOptionPane.showMessageDialog(null,
+                            "Usuario o contraseña incorrectos");
+                }
+            }
+        });
 
 
 
