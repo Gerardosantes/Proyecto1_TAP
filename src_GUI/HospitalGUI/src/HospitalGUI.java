@@ -1,14 +1,14 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-
+import java.util.ArrayList;
 
 public class HospitalGUI extends JFrame {
 
-    //  1.1 - DISEÑO Y ESTILOS
+    // LISTA DE EMPLEADOS
+    static ArrayList<String> empleados = new ArrayList<>();
 
-
-    // COLORES DEL SISTEMA
+    // COLORES
     Color fondo = new Color(220, 235, 250);
     Color botones = new Color(70, 130, 180);
     Color textoBoton = Color.WHITE;
@@ -24,8 +24,8 @@ public class HospitalGUI extends JFrame {
 
     public HospitalGUI() {
 
-        // CONFIGURACION DE VENTANA
-        setTitle("Sistema Hospitalario - Avance de Interfaz");
+        // CONFIGURACION VENTANA
+        setTitle("Sistema Hospitalario");
         setSize(500,400);
         setLayout(null);
         setLocationRelativeTo(null);
@@ -34,39 +34,32 @@ public class HospitalGUI extends JFrame {
         // COLOR DE FONDO
         getContentPane().setBackground(fondo);
 
-        // TITULO PRINCIPAL
+        // TITULO
         lblTitulo = new JLabel("HOSPITAL GENERAL");
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 22));
-        lblTitulo.setForeground(Color.BLACK);
+        lblTitulo.setForeground(new Color(25, 25, 112));
         lblTitulo.setBounds(120,15,300,30);
         add(lblTitulo);
-        
-        //  2.1 - LOGIN Y VALIDACION
-        
-        
-       // ETIQUETA USUARIO
+
+        // LOGIN
         lblUsuario = new JLabel("Usuario:");
         lblUsuario.setFont(new Font("Arial", Font.BOLD, 14));
         lblUsuario.setBounds(120,70,100,30);
         add(lblUsuario);
 
-        // CAMPO USUARIO
         txtUsuario = new JTextField();
         txtUsuario.setBounds(200,70,120,30);
         add(txtUsuario);
 
-        // ETIQUETA CONTRASEÑA
         lblContra = new JLabel("Contraseña:");
         lblContra.setFont(new Font("Arial", Font.BOLD, 14));
         lblContra.setBounds(120,120,100,30);
         add(lblContra);
 
-        // CAMPO CONTRASEÑA
         txtContra = new JPasswordField();
         txtContra.setBounds(200,120,120,30);
         add(txtContra);
 
-        // BOTON INGRESAR
         btnIngresar = new JButton("Ingresar");
         btnIngresar.setBounds(170,180,140,35);
         btnIngresar.setBackground(botones);
@@ -75,49 +68,38 @@ public class HospitalGUI extends JFrame {
         btnIngresar.setFont(new Font("Arial", Font.BOLD, 14));
         add(btnIngresar);
 
-
-
-        //  3.1 - MENU PRINCIPAL
-
-
-        // BOTON REGISTRAR
+        // BOTONES MENU
         btnRegistro = new JButton("Registrar Turno");
         btnRegistro.setBounds(150,70,180,35);
         estiloBoton(btnRegistro);
         btnRegistro.setVisible(false);
         add(btnRegistro);
 
-        // BOTON ACTIVOS
         btnActivos = new JButton("Turnos Activos");
         btnActivos.setBounds(150,120,180,35);
         estiloBoton(btnActivos);
         btnActivos.setVisible(false);
         add(btnActivos);
 
-        // BOTON FINALIZAR
         btnFinalizar = new JButton("Finalizar Turno");
         btnFinalizar.setBounds(150,170,180,35);
         estiloBoton(btnFinalizar);
         btnFinalizar.setVisible(false);
         add(btnFinalizar);
 
-        // BOTON SALIR
         btnSalir = new JButton("Salir");
         btnSalir.setBounds(150,220,180,35);
         estiloBoton(btnSalir);
         btnSalir.setVisible(false);
         add(btnSalir);
 
-
-        //  2.2 - EVENTO LOGIN
-       btnIngresar.addActionListener(new ActionListener() {
-            @Override
+        // LOGIN
+        btnIngresar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
                 String usuario = txtUsuario.getText();
                 String contra = txtContra.getText();
 
-                // VALIDACION DE ACCESO
                 if(usuario.equals("admin") && contra.equals("1234")) {
 
                     JOptionPane.showMessageDialog(null,
@@ -129,81 +111,173 @@ public class HospitalGUI extends JFrame {
 
                     JOptionPane.showMessageDialog(null,
                             "Usuario o contraseña incorrectos");
+
                 }
             }
         });
 
-
-
-        //  3.2 - FUNCIONES DEL MENU
-       
         // REGISTRO
         btnRegistro.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
 
+                String nombre = JOptionPane.showInputDialog("Nombre:");
+
+                String[] areas = {
+                    "Médica",
+                    "Enfermería",
+                    "Administrativa",
+                    "Diagnóstico",
+                    "Apoyo"
+                };
+
+                String puesto = (String) JOptionPane.showInputDialog(
+                        null,
+                        "Seleccione el área:",
+                        "Áreas Hospitalarias",
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        areas,
+                        areas[0]);
+
+                String hora = "";
+
+                do {
+
+                    hora = JOptionPane.showInputDialog(
+                            "Ingrese la hora en formato 24 horas\nEjemplo: 08:00 o 14:50");
+
+                    if(!hora.matches("([01]?[0-9]|2[0-3]):[0-5][0-9]")) {
+
+                        JOptionPane.showMessageDialog(null,
+                                "Formato incorrecto.\nUse HH:MM");
+
+                    }
+
+                } while(!hora.matches("([01]?[0-9]|2[0-3]):[0-5][0-9]"));
+
+                String datos = "Nombre: " + nombre +
+                        " | Área: " + puesto +
+                        " | Hora Entrada: " + hora;
+
+                empleados.add(datos);
+
                 JOptionPane.showMessageDialog(null,
-                        "Se esta trabajando en ello.",
-                        "Avance del Sistema",
-                        JOptionPane.INFORMATION_MESSAGE);
+                        "Turno registrado correctamente");
             }
         });
-
         // TURNOS ACTIVOS
         btnActivos.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
+                 if (empleados.isEmpty()) {
+                     JOptionPane.showMessageDialog(
+                    null,
+                    "No hay turnos activos."
+            );
+                    } else {
 
-                JOptionPane.showMessageDialog(null,
-                        "Se esta trabajando en ello.",
-                        "Avance del Sistema",
-                        JOptionPane.INFORMATION_MESSAGE);
+            JTextArea area = new JTextArea();
+
+            area.setEditable(false);
+            area.setFont(new Font("Arial", Font.PLAIN, 14));
+
+            area.append("===== TURNOS ACTIVOS =====\n\n");
+
+            for (int i = 0; i < empleados.size(); i++) {
+
+                area.append((i + 1) + ". " + empleados.get(i) + "\n\n");
+
             }
-        });
+
+            JScrollPane scroll = new JScrollPane(area);
+
+            scroll.setPreferredSize(new Dimension(450, 250));
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    scroll,
+                    "Turnos Activos (" + empleados.size() + ")",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+        }
+    }
+});
+
+
 
         // FINALIZAR TURNO
         btnFinalizar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+             public void actionPerformed(ActionEvent e) {
+                 if (empleados.isEmpty()) {
+                     JOptionPane.showMessageDialog(
+                    null,
+                    "No hay turnos activos registrados."
+                              );
+                     return;
+                     }
+                 String[] listaEmpleados = empleados.toArray(new String[0]);
+                 String seleccionado = (String) JOptionPane.showInputDialog(
+                null,
+                         "Seleccione el turno a finalizar:",
+                          "Finalizar Turno",
+                          JOptionPane.QUESTION_MESSAGE,
+                            null,
+                             listaEmpleados,
+                             listaEmpleados[0]
+                         
+                         );
 
-                JOptionPane.showMessageDialog(null,
-                        "Se esta trabajando en ello.",
-                        "Avance del Sistema",
-                        JOptionPane.INFORMATION_MESSAGE);
+        if (seleccionado != null) {
+
+            int opcion = JOptionPane.showConfirmDialog(
+                    null,
+                    "¿Desea finalizar este turno?\n\n" + seleccionado,
+                    "Confirmar",
+                    JOptionPane.YES_NO_OPTION
+            );
+
+            if (opcion == JOptionPane.YES_OPTION) {
+
+                empleados.remove(seleccionado);
+
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Turno finalizado correctamente."
+                );
             }
-        });
+        }
+    }
+});
 
-        // SALIR DEL SISTEMA
+        // SALIR
         btnSalir.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
 
                 System.exit(0);
+
             }
         });
     }
 
-  
-    //  1.2 - ESTILOS VISUALES
-    
-
+    // ESTILO BOTONES
     public void estiloBoton(JButton boton) {
 
         boton.setBackground(botones);
         boton.setForeground(textoBoton);
         boton.setFocusPainted(false);
         boton.setFont(new Font("Arial", Font.BOLD, 14));
-    }
-    
-    //  3.3 - MOSTRAR MENU
 
+    }
+
+    // MOSTRAR MENU
     public void mostrarMenu() {
 
         // OCULTAR LOGIN
         lblUsuario.setVisible(false);
         txtUsuario.setVisible(false);
+
         lblContra.setVisible(false);
         txtContra.setVisible(false);
+
         btnIngresar.setVisible(false);
 
         // MOSTRAR MENU
@@ -213,12 +287,11 @@ public class HospitalGUI extends JFrame {
         btnSalir.setVisible(true);
     }
 
-
-    // MAIN PRINCIPAL
-
+    // MAIN
     public static void main(String[] args) {
 
         HospitalGUI h = new HospitalGUI();
         h.setVisible(true);
+
     }
 }
