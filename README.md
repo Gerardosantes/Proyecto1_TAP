@@ -1,6 +1,7 @@
 ---Proyecto1_TAP----
 -----Sistema Hospitalario - HospitalGUI
 
+
 ----Descripcion
 
 HospitalGUI es una aplicacion desarrollada en Java utilizando la biblioteca Swing para crear una interfaz grafica de usuario. El sistema permite gestionar turnos de personal hospitalario mediante un inicio de sesion, registro de turnos, consulta de turnos activos y finalizacion de turnos.
